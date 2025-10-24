@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+    <h1>⏰ Zarak's First Clock</h1>
+    <div class="clock">
+      <span id="current-time">00:00:00</span>
+    </div>
+
+    <div class="alarm-setter">
+      <input type="time" id="alarm-time">
+      <button id="set-alarm">Set Alarm</button>
+    </div> 
+<select id="format">
+  <option value="24">24-hour</option>
+  <option value="12">12-hour</option>
+</select>
+
+    <p id="status"></p>
+  </div>
+<script src="script.js"></script>
+</body>
+</html>
+const currentTime = document.getElementById("current-time");
+const alarmTimeInput = document.getElementById("alarm-time");
+const setAlarmBtn = document.getElementById("set-alarm");
+const statusText = document.getElementById("status");
+
+let alarmTime = null;
+let alarmSet = false;
+
+function updateTime() {
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  currentTime.textContent = `${hours}:${minutes}:${seconds}`;
+
+  if (alarmSet && `${hours}:${minutes}` === alarmTime) {
+    alert("⏰ Alarm ringing!");
+    alarmSet = false;
+    statusText.textContent = "Alarm completed!";
+  }
+}
+
+setAlarmBtn.addEventListener("click", () => {
+  alarmTime = alarmTimeInput.value;
+  if (alarmTime) {
+    alarmSet = true;
+    statusText.textContent = `Alarm set for ${alarmTime}`;
+  } else {
+    statusText.textContent = "Please select a time!";
+  }
+});
+
+setInterval(updateTime, 1000);
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f1f5f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: white;
+  padding: 20px 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+h1 {
+  color: #383838;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  padding: 12px 28px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 15px rgba(37, 117, 252, 0.4);
+}
+
+.clock {
+  font-size: 2em;
+  margin: 15px 0;
+}
+
+#alarm-time {
+  padding: 5px;
+  font-size: 1em;
+}
+
+button {
+  padding: 6px 12px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+h1:hover{
+   transform: translateY(-5px) scale(1.05);
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+   letter-spacing: 1px;
+
+}
+
+button:hover{
+    background-color: rgb(115, 0, 255);
+      transform: translateY(-5px) scale(1.05);
+       letter-spacing: 1px;
+       box-shadow: 0 8px 25px rgba(106, 17, 203, 0.6);
+}
+
+#status {
+  margin-top: 15px;
+  color: #3c3c3c;
+}
